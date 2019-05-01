@@ -1,0 +1,24 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build','-t','gcr.io/high-hue-237416/cb-java-hello-world','.']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/high-hue-237416/cb-java-hello-world']
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args:
+      - 'apply'
+      - '-f'
+      - 'kubernetes-manifests/'
+    env:
+      - 'CLOUDSDK_COMPUTE_ZONE=us-central1-c'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=google-cluster'
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args:
+      - 'set'
+      - 'image'
+      - 'deployment'
+      - 'cb-java-hello-world'
+      - 'cb-java-hello-world=gcr.io/high-hue-237416/cb-java-hello-world'
+    env:
+      - 'CLOUDSDK_COMPUTE_ZONE=us-central1-c'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=google-cluster'
+images: ['gcr.io/high-hue-237416/cb-java-hello-world']
