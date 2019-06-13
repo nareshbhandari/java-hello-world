@@ -16,6 +16,7 @@ public final class HelloWorldController {
      */
     @GetMapping("/")
     public String helloWorld() {
-        return "Hello Cloud!";
+
+        return "Hello World!";
     }
 }
